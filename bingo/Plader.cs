@@ -28,6 +28,5 @@ public class Plader
         new string[] { "6", "26", "36", "54", "72" },
         new string[] { "9", "19", "39", "47", "89" }
     };
-
     //INFO: Ability to set many plader, don't forget to set a new case;
 }

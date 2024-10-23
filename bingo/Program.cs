@@ -5,7 +5,7 @@ class Bingo
     static void Main(string[] args)
     {
         Console.WriteLine("Select amount of plader (max 4)");
-        string plader = Console.ReadLine();
+        string? plader = Console.ReadLine();
 
         //get copy object Plader
         var allPlades = new Plader();
@@ -28,6 +28,7 @@ class Bingo
                 gamePlades.Add(("Have2", allPlades.Have2));
                 gamePlades.Add(("Have3", allPlades.Have3));
                 break;
+
             case "4":
                 gamePlades.Add(("Have1", allPlades.Have1));
                 gamePlades.Add(("Have2", allPlades.Have2));
@@ -56,9 +57,10 @@ class Bingo
 
     static void StartGame(List<(string name, List<string[]>)> plader)
     {
-        var calledNumbers = new List<string>();
-        bool hasWinner = false;
+        bool completeOneRow = false;
+        bool completeTwoRow = false;
         int drawnNumber;
+        var calledNumbers = new List<string>();
         while (true)
         {
             Console.WriteLine("Enter a number between 1 and 90:");
@@ -100,20 +102,30 @@ class Bingo
                 Console.WriteLine();
             }
 
-            // Check if a plade  complete
+            // Checking winning combinations
             foreach (var (name, winnerPlade) in plader)
             {
-                //Count how many rows have a complete row("X" instead of number)
+                //Count how many rows have a complete row ("X" instead of a number)
                 int completedRows = winnerPlade.Count(r => r.All(x => x == "X"));
-
                 switch (completedRows)
                 {
                     case 1:
-                        Console.WriteLine($"{name} have a full row");
+                        // INFO: check if the marker was set to show the winner only once
+                        if (!completeOneRow)
+                        {
+                            Console.WriteLine($"{name} have a full row, Tillyke!");
+                            completeOneRow = true;
+                        }
                         break;
+
                     case 2:
-                        Console.WriteLine($"{name} have a full to rows");
+                        if (!completeTwoRow)
+                        {
+                            Console.WriteLine($"{name} have a full two rows, Tillyke!");
+                            completeTwoRow = true;
+                        }
                         break;
+
                     case 3:
                         Console.WriteLine($"Bingo or Banko! {name} is winner. Game over");
                         return;
